@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
-import Axios from "../../Api/Axios";
 import { useNavigate } from "react-router-dom";
-const Table = () => {
-  const [coinList, setCoinList] = useState(null);
 
+const Table = ({ list }) => {
   let navigate = useNavigate();
 
   const handleRowClick = (coinId) => {
@@ -13,18 +10,6 @@ const Table = () => {
       behavior: "smooth",
     });
   };
-
-  useEffect(() => {
-    Axios.get(
-      "coins/markets?vs_currency=eur&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=30d&locale=fr&x_cg_demo_api_key=CG-LbRHoTvAKX7BQDAPJhyeiRHr"
-    )
-      .then((response) => {
-        setCoinList(response);
-      })
-      .catch((error) => {
-        console.error("Erreur lors de la requête" + error);
-      });
-  }, []);
 
   return (
     <div>
@@ -40,9 +25,13 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {coinList &&
-            coinList.data.map((coin) => (
-              <tr key={coin.id} className=" cursor-pointer" onClick={() => handleRowClick(coin.id)}>
+          {list &&
+            list.data.map((coin) => (
+              <tr
+                key={coin.id}
+                className=" cursor-pointer"
+                onClick={() => handleRowClick(coin.id)}
+              >
                 <th>{coin.name}</th>
                 <th>
                   <img

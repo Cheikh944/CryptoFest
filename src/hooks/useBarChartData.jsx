@@ -5,7 +5,6 @@ const getDataBarChart = async (param) => {
   try {
     const response = await Axios.get(param);
     const data = response?.data.prices;
-    console.log(data);
     const result = [];
     let barMin = data[259][1];
     let barMax = 0;
